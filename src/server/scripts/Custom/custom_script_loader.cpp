@@ -18,7 +18,20 @@
 // This is where scripts' loading functions should be declared:
 
 // The name of this function should match:
-// void Add${NameOfDirectory}Scripts()
+ //void Add${NameOfDirectory}Scripts()
+ void AddSC_TemplateNPC();
+ void AddLfgSoloScripts();
+ void AddSolocraftScripts();
+ void AddSC_racial_traits_npc();
+ void AddSC_NPC_Profession();
+ void AddSC_CrossfactionBattlegrounds();
+
 void AddCustomScripts()
 {
+     AddLfgSoloScripts();
+     AddSolocraftScripts();
+     AddSC_racial_traits_npc();
+     AddSC_TemplateNPC();
+     AddSC_NPC_Profession();
+     AddSC_CrossfactionBattlegrounds();
 }

@@ -328,6 +328,8 @@ class TC_GAME_API Creature : public Unit, public GridObject<Creature>, public Ma
         void ResetPlayerDamageReq() { m_PlayerDamageReq = GetHealth() / 2; }
         uint32 m_PlayerDamageReq;
 
+        CreatureCustomData CustomData; //autobalance
+
         uint32 GetOriginalEntry() const { return m_originalEntry; }
         void SetOriginalEntry(uint32 entry) { m_originalEntry = entry; }
 

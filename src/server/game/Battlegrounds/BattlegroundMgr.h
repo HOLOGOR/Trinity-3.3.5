@@ -24,6 +24,7 @@
 #include "BattlegroundQueue.h"
 #include "UniqueTrackablePtr.h"
 #include <unordered_map>
+#include "CFBGQueue.h"
 
 struct BattlemasterListEntry;
 
