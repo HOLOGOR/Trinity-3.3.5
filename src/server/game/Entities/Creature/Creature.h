@@ -27,6 +27,7 @@
 #include "GridObject.h"
 #include "MapObject.h"
 #include <list>
+#include "CustomData.h" //autobalance
 
 class CreatureAI;
 class CreatureGroup;

@@ -1531,6 +1531,7 @@ void ScriptMgr::OnPlayerEnterMap(Map* map, Player* player)
 #endif
 
     FOREACH_SCRIPT(PlayerScript)->OnMapChanged(player);
+    FOREACH_SCRIPT(AllMapScript)->OnPlayerEnterAll(map, player); //autobalance
 
     SCR_MAP_BGN(WorldMapScript, map, itr, end, entry, IsWorldMap);
         itr->second->OnPlayerEnter(map, player);
@@ -1549,6 +1550,8 @@ void ScriptMgr::OnPlayerLeaveMap(Map* map, Player* player)
 {
     ASSERT(map);
     ASSERT(player);
+
+    FOREACH_SCRIPT(AllMapScript)->OnPlayerLeaveAll(map, player); //autobalance
 
 #ifdef ELUNA
     if(Eluna * e = map->GetEluna())
@@ -1581,6 +1584,8 @@ void ScriptMgr::OnMapUpdate(Map* map, uint32 diff)
         e->OnUpdate(map, diff);
     }
 #endif
+
+    FOREACH_SCRIPT(AllMapScript)->OnAllUpdate(map, diff); //autobalance
 
     SCR_MAP_BGN(WorldMapScript, map, itr, end, entry, IsWorldMap);
         itr->second->OnUpdate(map, diff);
@@ -2470,6 +2475,11 @@ void ScriptMgr::OnGroupDisband(Group* group)
 }
 
 // Unit
+void ScriptMgr::ModifyHealRecieved(Unit* healer, Unit* target, uint32 &heal)// ===================> autobalance
+{
+    FOREACH_SCRIPT(UnitScript)->ModifyHealRecieved(healer, target, heal);// ===================> autobalance
+}
+
 void ScriptMgr::OnHeal(Unit* healer, Unit* reciever, uint32& gain)
 {
     FOREACH_SCRIPT(UnitScript)->OnHeal(healer, reciever, gain);
@@ -2493,6 +2503,31 @@ void ScriptMgr::ModifyMeleeDamage(Unit* target, Unit* attacker, uint32& damage)
 void ScriptMgr::ModifySpellDamageTaken(Unit* target, Unit* attacker, int32& damage)
 {
     FOREACH_SCRIPT(UnitScript)->ModifySpellDamageTaken(target, attacker, damage);
+}
+
+AllMapScript::AllMapScript(const char *name) // autobalance
+    : ScriptObject(name)
+{
+#if !defined(_MSC_VER) || _MSC_VER >= 1600
+    ScriptRegistry<AllMapScript>::Instance()->AddScript(this);
+#else
+    ScriptRegistry<AllMapScript>::AddScript(this);
+#endif
+}
+
+AllCreatureScript::AllCreatureScript(const char *name)
+    : ScriptObject(name)
+{
+#if !defined(_MSC_VER) || _MSC_VER >= 1600
+    ScriptRegistry<AllCreatureScript>::Instance()->AddScript(this);
+#else
+    ScriptRegistry<AllCreatureScript>::AddScript(this);
+#endif
+}
+
+void ScriptMgr::OnCreatureUpdateAll(Creature *creature, uint32 diff)
+{
+    FOREACH_SCRIPT(AllCreatureScript)->OnAllCreatureUpdate(creature, diff); // END AUTOBALANCE add
 }
 
 SpellScriptLoader::SpellScriptLoader(char const* name)
@@ -3206,3 +3241,5 @@ template class TC_GAME_API ScriptRegistry<GuildScript>;
 template class TC_GAME_API ScriptRegistry<GroupScript>;
 template class TC_GAME_API ScriptRegistry<UnitScript>;
 template class TC_GAME_API ScriptRegistry<AccountScript>;
+template class TC_GAME_API ScriptRegistry<AllMapScript>; //autobalance
+template class TC_GAME_API ScriptRegistry<AllCreatureScript>; //autobalance
