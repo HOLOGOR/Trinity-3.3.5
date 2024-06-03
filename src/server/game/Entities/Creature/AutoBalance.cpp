@@ -697,7 +697,7 @@ private:
         CreatureTemplate const* creatureTemplate = creature->GetCreatureTemplate();
         InstanceMap* instanceMap = !isWorldMap ? (InstanceMap*)sMapMgr->FindMap(creature->GetMapId(), creature->GetInstanceId()) : NOTHING;
         int32 forcedNumPlayers = GetForcedNumPlayers(creatureTemplate->Entry);
-        uint32 maxNumberOfPlayers = instanceMap ? instanceMap->GetMaxPlayers() : MAXGROUPSIZE;
+        uint32 maxNumberOfPlayers = instanceMap ? instanceMap->GetMaxPlayers() : MAX_GROUP_SIZE;
 
         if (forcedNumPlayers > 0)
             maxNumberOfPlayers = forcedNumPlayers; // Force maxNumberOfPlayers to be changed to match the Configuration entries ForcedID2, ForcedID5, ForcedID10, ForcedID20, ForcedID25, ForcedID40
