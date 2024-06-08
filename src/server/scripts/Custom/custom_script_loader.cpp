@@ -23,9 +23,11 @@
 
 
 void AddSC_TemplateNPC();
+void AddSolocraftScripts();
 
 
 void AddCustomScripts()
 {
     AddSC_TemplateNPC();
+    AddSolocraftScripts();
 }
